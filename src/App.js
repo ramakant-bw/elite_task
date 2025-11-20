@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import ProductList from './components/ProductList';
 import AddProduct from './components/AddProduct';
 
@@ -27,9 +28,8 @@ function App() {
 
   const fetchFromAPI = async (id = 1) => {
     try {
-      const res = await fetch(`https://fakestoreapi.com/products/${id}`);
-      if (!res.ok) throw new Error(`Status ${res.status}`);
-      const data = await res.json();
+      const res = await axios.get(`https://fakestoreapi.com/products/${id}`);
+      const data = res.data;
       console.log('fetched product', data);
       const product = {
         id: Date.now(),
@@ -40,7 +40,8 @@ function App() {
       setProducts(prev => [product, ...prev]);
     } catch (err) {
       console.error('Fetch error', err);
-      alert('Failed to fetch product: ' + err.message);
+      const msg = err.response?.statusText || err.message || 'Unknown error';
+      alert('Failed to fetch product: ' + msg);
     }
   };
 
