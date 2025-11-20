@@ -35,7 +35,8 @@ function App() {
         id: Date.now(),
         name: data.title || data.name || 'API Product',
         price: data.price || 0,
-        description: data.description || ''
+        description: data.description || '',
+        image: data.image || data.imageUrl || ''
       };
       setProducts(prev => [product, ...prev]);
     } catch (err) {
